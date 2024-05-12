@@ -29,7 +29,7 @@ This is a simple command-line ToDo list application implemented in C++. It allow
 2. Compile the source code:
 
     ```bash
-    g++ -o todo main.cpp
+    g++ -o todo ToDo-List-App.cpp
     ```
 
 3. Run the executable:
