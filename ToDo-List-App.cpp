@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <windows.h>
 #include <queue>
 
 using namespace std;
@@ -18,8 +19,8 @@ struct MyToDo
 
     bool operator < (const MyToDo& other) const
     {
-        // Higher priority tasks come first (assending order)
-        return priority < other.priority;
+        // Higher priority tasks come first (ascending order)
+        return priority > other.priority;
     } 
 };
 
@@ -44,7 +45,15 @@ int main()
         cout << endl;
         cout << "            Choose an Option: ";
         cin >> choice;
-
+        if(cin.fail())
+        {
+            cout << "Invalid input! Please enter a number." << endl;
+            Sleep(500);
+            cin.clear();
+            cin.ignore();
+            choice = 0;
+            continue;
+        }
         if(choice == 1)
         {
             AddTask();
@@ -67,7 +76,7 @@ int main()
         }
         else if(choice == 6)
         {
-            cout << "System is Shutting Down....." << endl;
+            cout << "System is Shutting Down....." << endl << endl;
         }
         else
         {
@@ -92,12 +101,14 @@ void AddTask()
     getline(cin, desc);
     cout << "Enter Priority of your task (1 - 5): ";
     cin >> priority;
-    while (priority < 1 || priority > 5)
+    while (cin.fail() || priority < 1 || priority > 5)
     {
         cout << "Invalid priority! Please enter a number between 1 and 5: ";
+        cin.clear();
+        cin.ignore();
         cin >> priority;
     }
-    cout << "Enter due date (Formate day/month): ";
+    cout << "Enter due date: ";
     cin >> date;
 
     
@@ -111,6 +122,7 @@ void AddTask()
 
     cout << endl;
     cout << "Congratulations! Task added successfully." << endl;
+    Sleep(1000);
 }
 
 
@@ -176,9 +188,10 @@ void viewAll()
 
 void removeTask()
 {
+    cin.ignore();
     string desc;
     cout << "Enter the description of the task you want to remove: ";
-    cin >> desc;
+    getline(cin, desc);
 
     std::priority_queue<MyToDo> temp;
 
@@ -187,7 +200,7 @@ void removeTask()
         MyToDo current = q.top();
         q.pop();
 
-        if (current.description!= desc)
+        if (current.description != desc)
         {
             temp.push(current);
         }
@@ -205,6 +218,6 @@ void removeTask()
     }
     else
     {
-        cout << "Task not found or already removed." << endl;
+        cout << "Task not found / already removed." << endl;
     }
 }
