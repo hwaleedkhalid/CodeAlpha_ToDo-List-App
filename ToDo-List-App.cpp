@@ -137,10 +137,12 @@ void currentTask()
         cout << "=> Priority: " << current.priority << endl;
         cout << "=> Due Date: " << current.dueDate << endl;
         cout << endl;
+        Sleep(1000);
     }
     else
     {
         cout << "No task in the list." << endl;
+        Sleep(1000);
     }
 }
 
@@ -153,10 +155,12 @@ void markComplete()
     {
         cout << "+----- Current Task marked as completed and removed from list ------+" << endl;
         q.pop();
+        Sleep(1000);
     }
     else 
     {
         cout << "Error!!  No task to mark as complete. The queue is empty." << endl;
+        Sleep(1000);
     }
 
 }
@@ -177,6 +181,7 @@ void viewAll()
             cout << "Due Date: " << display.top().dueDate << endl;
             cout << endl;
             display.pop();
+            Sleep(100);
         }
     }
     else
@@ -193,8 +198,15 @@ void removeTask()
     cout << "Enter the description of the task you want to remove: ";
     getline(cin, desc);
 
-    std::priority_queue<MyToDo> temp;
+    if (desc.empty())
+    {
+        cout << "Invalid description. Please provide a non-empty description." << endl;
+        return;
+    }
 
+    bool found = false;
+
+    std::priority_queue<MyToDo> temp;
     while (!q.empty())
     {
         MyToDo current = q.top();
@@ -204,6 +216,10 @@ void removeTask()
         {
             temp.push(current);
         }
+        else
+        {
+            found = true;
+        }
     }
 
     while (!temp.empty())
@@ -212,12 +228,14 @@ void removeTask()
         temp.pop();
     }
 
-    if (!q.empty() && q.top().description == desc)
+    if (found)
     {
-        cout << "Task removed successfully!" << endl;
+        cout << "Task removed successfully." << endl;
+        Sleep(500);
     }
     else
     {
-        cout << "Task not found / already removed." << endl;
+        cout << "Task not found." << endl;
+        Sleep(500);
     }
 }
